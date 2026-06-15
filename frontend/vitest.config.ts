@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "."),
+      "@/components/layout/header": resolve(__dirname, "tests/mocks/header.tsx"),
     },
   },
   css: {
