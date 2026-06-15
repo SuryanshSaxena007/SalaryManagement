@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.db.base import Base
 from app.models import Country, Currency, FXRate
 from app.schemas.common import PaginatedResponse
-from app.schemas.employee import EmployeeCreate, EmployeeOut, EmployeeUpdate
+from app.schemas.employee import EmployeeOut, EmployeeUpdate
 from app.schemas.employee_filters import EmployeeListFilters
 from app.services.employee import EmployeeService
 from app.services.exceptions import ConflictError, NotFoundError, ValidationError
@@ -172,6 +172,22 @@ async def test_update_rejects_unknown_currency(service: EmployeeService) -> None
 
     with pytest.raises(ValidationError):
         await service.update(created.id, EmployeeUpdate(currency_code="XYZ"))
+
+
+async def test_update_rejects_duplicate_employee_code(service: EmployeeService) -> None:
+    await service.create(make_employee_create("E-EXIST"))
+    target = await service.create(make_employee_create("E-RENAME"))
+
+    with pytest.raises(ConflictError):
+        await service.update(target.id, EmployeeUpdate(employee_code="E-EXIST"))
+
+
+async def test_update_rejects_duplicate_email(service: EmployeeService) -> None:
+    await service.create(make_employee_create("E-ME-1", email="taken@example.com"))
+    target = await service.create(make_employee_create("E-ME-2", email="mine@example.com"))
+
+    with pytest.raises(ConflictError):
+        await service.update(target.id, EmployeeUpdate(email="taken@example.com"))
 
 
 async def test_delete_removes_and_subsequent_get_raises(service: EmployeeService) -> None:
