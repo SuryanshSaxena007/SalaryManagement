@@ -649,7 +649,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/schemas/{common,employee,fx,employee_filters}.py`, `backend/tests/test_schemas.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_schemas.py`
 
-- [ ] 6. Alembic initial migration scaffold
+- [x] 6. Alembic initial migration scaffold
 
   **What to do**:
   - `cd backend && alembic init -t async migrations` (creates `migrations/` with async env template)
@@ -727,7 +727,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/alembic.ini`, `backend/migrations/env.py`, `backend/migrations/script.py.mako`, `backend/migrations/versions/0001_initial.py`, `backend/data/.gitkeep`, `backend/tests/test_migrations.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_migrations.py`
 
-- [ ] 7. Frontend lib/dal.ts (server-only FastAPI client) + zod schemas
+- [x] 7. Frontend lib/dal.ts (server-only FastAPI client) + zod schemas
 
   **What to do**:
   - `frontend/lib/env.ts`: typed env loader. Server-only export `serverEnv` with `FASTAPI_URL` (defaults to `http://localhost:8000`). Client export `publicEnv` with `NEXT_PUBLIC_API_URL`. Use zod to validate at module-load time.
@@ -883,7 +883,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `Makefile`, `.env.example`, `.gitignore`, `README.md`, `backend/tests/repo_smoke_test.sh`
   - Pre-commit: `make lint`
 
-- [ ] 9. Backend EmployeeRepository (CRUD with selectinload, pagination)
+- [x] 9. Backend EmployeeRepository (CRUD with selectinload, pagination)
 
   **What to do**:
   - `backend/app/repositories/base.py`: `class BaseRepository[T]` with abstract `get_by_id`, `list_paginated`, `create`, `update`, `delete`. Takes `AsyncSession` in constructor.
@@ -1364,7 +1364,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/services/csv_export.py`, `backend/tests/test_service_csv_export.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_service_csv_export.py`
 
-- [ ] 15. Frontend shadcn primitives (button, card, input, select, table, dialog, badge, sonner)
+- [x] 15. Frontend shadcn primitives (button, card, input, select, table, dialog, badge, sonner)
 
   **What to do**:
   - `cd frontend && pnpm dlx shadcn@latest add button card input select label table dialog form badge sonner skeleton`
