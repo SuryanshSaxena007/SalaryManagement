@@ -1,0 +1,8 @@
+Task 7 schema evidence
+
+Command: pnpm vitest run tests/lib/dal.test.ts tests/lib/schemas.test.ts
+Exit code: 0
+
+Notes:
+- Employee schema accepts backend-shaped payloads.
+- Monetary/aggregate fields remain strings; invalid salary/currency/missing field cases fail.

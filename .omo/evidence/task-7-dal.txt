@@ -1,0 +1,11 @@
+Task 7 DAL evidence
+
+Command: pnpm vitest run tests/lib/dal.test.ts tests/lib/schemas.test.ts
+Exit code: 0
+
+Command: pnpm tsc --noEmit
+Exit code: 0
+
+Notes:
+- apiFetch returns parsed JSON and surfaces status/body on failures.
+- buildReportQuery omits undefined filters and preserves key order.
