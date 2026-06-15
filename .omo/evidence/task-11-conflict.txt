@@ -1,0 +1,34 @@
+Task 11 — EmployeeService ConflictError on duplicate employee_code / email
+
+Command: cd backend && .venv/bin/pytest tests/test_service_employee.py -v -k duplicate
+Date:    2026-06-16
+
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-8.3.0
+rootdir: /Users/suryanshsaxena/Documents/Suryansh Saxena/backend
+configfile: pyproject.toml
+plugins: asyncio-0.24.0, cov-5.0.0
+asyncio: mode=Mode.AUTO
+
+tests/test_service_employee.py::test_create_rejects_duplicate_employee_code PASSED [ 25%]
+tests/test_service_employee.py::test_create_rejects_duplicate_email          PASSED [ 50%]
+tests/test_service_employee.py::test_update_rejects_duplicate_employee_code  PASSED [ 75%]
+tests/test_service_employee.py::test_update_rejects_duplicate_email          PASSED [100%]
+
+============================== 4 passed in 0.20s ===============================
+
+What this proves:
+  - create() pre-checks employee_code uniqueness via EmployeeRepository.get_by_code
+    and raises typed ConflictError BEFORE flushing — no DB IntegrityError leaks.
+  - create() pre-checks email uniqueness via inline `select(Employee.id).where(...)`
+    (EmployeeRepository owned by T9 has no get_by_email, so the service queries
+    inside the same AsyncSession to stay flush-coherent).
+  - update() re-validates uniqueness ONLY when the patch payload actually changes
+    the field (data.email != existing.email), so re-saving the same record with
+    no-op fields does NOT raise.
+  - All conflict paths raise app.services.exceptions.ConflictError — no
+    HTTPException, no IntegrityError. Routers (T17) own HTTP mapping.
+
+Service contract recap (from acceptance gate):
+  Coverage:  app/services/employee.py → 100% (target ≥90%).
+  Total:     21 service tests pass (target ≥10).

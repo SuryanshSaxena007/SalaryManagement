@@ -1,0 +1,34 @@
+Task 11 — EmployeeService.to_usd() Decimal FX conversion + ROUND_HALF_UP @ 2dp
+
+Command: cd backend && .venv/bin/pytest tests/test_service_employee.py -v -k to_usd
+Date:    2026-06-16
+
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-8.3.0
+rootdir: /Users/suryanshsaxena/Documents/Suryansh Saxena/backend
+configfile: pyproject.toml
+plugins: asyncio-0.24.0, cov-5.0.0
+asyncio: mode=Mode.AUTO
+
+tests/test_service_employee.py::test_to_usd_converts_inr_and_rounds_half_up PASSED [ 25%]
+tests/test_service_employee.py::test_to_usd_rounds_half_up_at_2dp           PASSED [ 50%]
+tests/test_service_employee.py::test_to_usd_uses_as_of_date                 PASSED [ 75%]
+tests/test_service_employee.py::test_to_usd_raises_validation_error_when_no_rate PASSED [100%]
+
+============================== 4 passed in 0.20s ===============================
+
+Spec-required scenario from the plan:
+  INR 100000 @ rate 0.012 → 1200.00 USD (Decimal, ROUND_HALF_UP).
+
+Additional Decimal guarantees verified:
+  - GBP Decimal("1.005") @ rate 1.25 → 1.25625 quantize 2dp HALF_UP → Decimal("1.26")
+    (proves NOT banker's rounding — would have been 1.25 otherwise).
+  - as_of=2026-01-01 routes through the historical INR rate (0.014, older row) and
+    returns Decimal("1400.00"), demonstrating FXRateRepository.get_rate(as_of) is
+    plumbed through correctly.
+  - Missing rate for "JPY" raises ValidationError instead of HTTPException, so the
+    service stays HTTP-agnostic.
+
+Grep gates (run from backend/):
+  $ grep -E 'HTTPException' app/services/employee.py   → (empty, exit 1)
+  $ grep -E '\\bfloat\\('      app/services/employee.py → (empty, exit 1)
