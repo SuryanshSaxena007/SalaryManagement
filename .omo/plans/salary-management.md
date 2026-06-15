@@ -978,7 +978,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/repositories/{base,employee}.py`, `backend/tests/test_repo_employee.py`, `backend/tests/factories.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_repo_employee.py`
 
-- [ ] 10. Backend CountryRepository + CurrencyRepository + FXRateRepository
+- [x] 10. Backend CountryRepository + CurrencyRepository + FXRateRepository
 
   **What to do**:
   - `backend/app/repositories/country.py`: `class CountryRepository(BaseRepository[Country])` - `list_all()`, `get_by_code(code)`, `upsert(code, name)` (used by seed)
@@ -1439,7 +1439,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/components/ui/*.tsx`, `frontend/components/ui/{data-table,kpi-card}.tsx`, `frontend/tests/components/{data-table,kpi-card}.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run tests/components/`
 
-- [ ] 16. Frontend lib/format.ts (currency formatter, percent, number) + MSW handlers
+- [x] 16. Frontend lib/format.ts (currency formatter, percent, number) + MSW handlers
 
   **What to do**:
   - `frontend/lib/format.ts`:
@@ -1896,7 +1896,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/main.py`, `backend/app/api/health.py`, `backend/app/core/logging.py`, `backend/tests/test_main.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_main.py`
 
-- [ ] 21. Frontend app/layout.tsx + global nav + theme
+- [x] 21. Frontend app/layout.tsx + global nav + theme
 
   **What to do**:
   - `frontend/app/layout.tsx`: root layout with Tailwind body classes, dark/light support via `next-themes` (optional - skip if time-constrained, just use light theme). Includes `<Sidebar>` + `<main>`.
