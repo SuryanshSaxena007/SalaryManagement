@@ -1,0 +1,8 @@
+Verification:
+- make -n install
+  - exit=0
+  - stdout:
+    cd backend && /opt/homebrew/bin/python3.12 -m venv .venv && .venv/bin/pip install -e '.[dev]'
+    cd frontend && pnpm install
+- bash scripts/repo_smoke_test.sh
+  - exit=0
