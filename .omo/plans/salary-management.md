@@ -326,7 +326,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/pyproject.toml`, `backend/app/**/__init__.py`, `backend/tests/test_smoke.py`, `backend/.python-version`, `backend/README.md`
   - Pre-commit: `cd backend && ruff check . && ruff format --check . && pytest -q`
 
-- [ ] 2. Frontend scaffolding + Tailwind + shadcn/ui init
+- [x] 2. Frontend scaffolding + Tailwind + shadcn/ui init
 
   **What to do**:
   - Create `frontend/` directory at repo root
@@ -485,7 +485,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/core/config.py`, `backend/app/db/{base,session,lifespan}.py`, `backend/tests/test_db_session.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q`
 
-- [ ] 4. Backend models: Country, Currency, FXRate, Employee
+- [x] 4. Backend models: Country, Currency, FXRate, Employee
 
   **What to do**:
   - `backend/app/models/country.py`: `class Country(Base)` table `countries` with columns `code: Mapped[str] = mapped_column(String(2), primary_key=True)` (ISO 3166-1 alpha-2 e.g. "US", "IN"), `name: Mapped[str] = mapped_column(String(100), nullable=False)`
@@ -807,7 +807,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/lib/{env,dal,schemas}.ts`, `frontend/tests/lib/{dal,schemas}.test.ts`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run tests/lib/`
 
-- [ ] 8. Repo-wide config: Makefile, .env.example, .gitignore, README skeleton
+- [x] 8. Repo-wide config: Makefile, .env.example, .gitignore, README skeleton
 
   **What to do**:
   - Repo root `Makefile` with targets:

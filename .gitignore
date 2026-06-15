@@ -37,10 +37,12 @@ Thumbs.db
 *.swp
 *.swo
 
-# .omo runtime artifacts - ignore everything EXCEPT committed plans
+# .omo: track plans + notepads (design/AI-process artifacts), ignore runtime scratch
 .omo/*
 !.omo/plans/
 !.omo/plans/**
+!.omo/notepads/
+!.omo/notepads/**
 
 # Logs
 *.log

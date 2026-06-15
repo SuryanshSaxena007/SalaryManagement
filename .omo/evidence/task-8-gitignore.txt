@@ -1,6 +1,0 @@
-Verification:
-- git check-ignore -v .env
-  - exit=0
-  - stdout:
-    .gitignore:21:.env	.env
-- .gitignore already ignores .env and keeps .env.example tracked.
