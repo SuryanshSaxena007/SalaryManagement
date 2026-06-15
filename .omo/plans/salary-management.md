@@ -243,7 +243,7 @@ Max Concurrent: 8 tasks (Wave 1)
 
 ## TODOs
 
-- [ ] 1. Backend scaffolding + pyproject.toml + ruff config
+- [x] 1. Backend scaffolding + pyproject.toml + ruff config
 
   **What to do**:
   - Create `backend/` directory at repo root
@@ -413,7 +413,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/package.json`, `frontend/tsconfig.json`, `frontend/vitest.config.ts`, `frontend/tests/setup.ts`, `frontend/tests/setup-msw.ts`, `frontend/tests/smoke.test.tsx`, `frontend/.env.example`, `frontend/components.json`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 3. Backend Settings + database engine + lifespan
+- [x] 3. Backend Settings + database engine + lifespan
 
   **What to do**:
   - `backend/app/core/config.py`: `class Settings(BaseSettings)` with fields `database_url: str = "sqlite+aiosqlite:///./data/app.db"`, `cors_origins: list[str] = ["http://localhost:3000"]`, `app_env: str = "dev"`. `model_config = SettingsConfigDict(env_file=".env", env_prefix="APP_")`. Expose `@lru_cache def get_settings() -> Settings`.
@@ -576,7 +576,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/models/{__init__,country,currency,fx_rate,employee}.py`, `backend/tests/test_models.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_models.py`
 
-- [ ] 5. Backend Pydantic schemas (EmployeeIn/Out, FXRateOut, paging)
+- [x] 5. Backend Pydantic schemas (EmployeeIn/Out, FXRateOut, paging)
 
   **What to do**:
   - `backend/app/schemas/common.py`: `class PaginatedResponse(BaseModel, Generic[T])` with `items: list[T]`, `total: int`, `limit: int`, `offset: int`, `next_offset: int | None`
