@@ -1,0 +1,18 @@
+Task 19 determinism evidence
+database: /var/folders/gj/bpwqd94x0sz5h3cxwmnd9fhm0000gn/T/opencode/task-19-deterministic.db
+cmd: APP_DATABASE_URL=sqlite+aiosqlite:////var/folders/gj/bpwqd94x0sz5h3cxwmnd9fhm0000gn/T/opencode/task-19-deterministic.db .venv/bin/alembic upgrade head
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> a6a411539295, initial schema
+exit: 0
+
+cmd: APP_DATABASE_URL=sqlite+aiosqlite:////var/folders/gj/bpwqd94x0sz5h3cxwmnd9fhm0000gn/T/opencode/task-19-deterministic.db .venv/bin/python -m seeds.seed --count 50 --reset
+Seed complete: processed 50 employees; inserted 50 new rows
+exit: 0
+first_run: ACME-00001|Danielle|Johnson|83984.85
+
+cmd: APP_DATABASE_URL=sqlite+aiosqlite:////var/folders/gj/bpwqd94x0sz5h3cxwmnd9fhm0000gn/T/opencode/task-19-deterministic.db .venv/bin/python -m seeds.seed --count 50 --reset
+Seed complete: processed 50 employees; inserted 50 new rows
+exit: 0
+second_run: ACME-00001|Danielle|Johnson|83984.85
+deterministic: yes
