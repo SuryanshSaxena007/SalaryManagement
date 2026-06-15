@@ -1,0 +1,7 @@
+Command: grep -cE 'text\(' app/repositories/*.py
+Exit code: 0
+Result: 0 matches in app/repositories/*.py
+
+Command: .venv/bin/ruff check app/repositories tests/test_repo_country.py tests/test_repo_currency.py tests/test_repo_fx_rate.py
+Exit code: 0
+Result: All checks passed
