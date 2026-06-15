@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
 
