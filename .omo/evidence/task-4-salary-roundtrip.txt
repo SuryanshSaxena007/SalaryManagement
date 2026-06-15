@@ -1,0 +1,21 @@
+Task 4 verification (backend/models)
+
+1) `.venv/bin/python -c "from app.models import Employee, Country, Currency, FXRate; print('ok')"`
+   - exit: 0
+   - stdout: `ok`
+
+2) `.venv/bin/pytest -q tests/test_models.py`
+   - exit: 0
+   - stdout: `1 passed, 2 warnings in 0.10s`
+
+3) `.venv/bin/ruff check app/models tests/test_models.py`
+   - exit: 0
+   - stdout: `All checks passed!`
+
+4) `.venv/bin/python -c "from app.models import Employee; print(Employee.base_salary.type.python_type)"`
+   - exit: 0
+   - stdout: `<class 'decimal.Decimal'>`
+
+5) `grep -rnE 'Float|Real\\b' backend/app/models/`
+   - exit: 1
+   - stdout: none (no matches)

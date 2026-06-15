@@ -1,0 +1,5 @@
+Task 4 float/real check
+
+Command: `grep -rnE 'Float|Real\\b' backend/app/models/`
+- exit: 1
+- result: no matches in backend/app/models/
