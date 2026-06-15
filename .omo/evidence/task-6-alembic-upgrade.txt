@@ -1,0 +1,6 @@
+Command: APP_DATABASE_URL='sqlite+aiosqlite:////tmp/alm.db' .venv/bin/alembic upgrade head
+Workdir: backend/
+Exit code: 0
+Observed: migrated a6a411539295 (initial schema)
+Tables: alembic_version, countries, currencies, employees, fx_rates
+employees.base_salary: NUMERIC(12, 2)
