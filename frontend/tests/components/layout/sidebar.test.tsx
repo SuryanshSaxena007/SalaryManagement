@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-const mockUsePathname = vi.fn<[], string>();
+const mockUsePathname = vi.fn(() => "/");
 
 vi.mock("next/navigation", () => ({
   usePathname: () => mockUsePathname(),
