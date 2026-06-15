@@ -8,3 +8,27 @@ Full-stack salary management for ACME HR (10,000 employees, multi-country).
 - TDD with atomic conventional commits
 
 See [`.omo/plans/salary-management.md`](.omo/plans/salary-management.md) for the full work plan.
+
+## Local Setup
+
+```bash
+make install && make migrate && make seed && make dev
+```
+
+## Run Tests
+
+```bash
+make test
+```
+
+## Project Structure
+
+```text
+.
+├── backend/
+├── frontend/
+├── scripts/
+├── Makefile
+├── .env.example
+└── README.md
+```
