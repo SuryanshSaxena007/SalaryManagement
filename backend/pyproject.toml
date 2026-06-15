@@ -7,7 +7,6 @@ name = "salary-management-backend"
 version = "0.1.0"
 description = "FastAPI backend scaffolding for the salary management system"
 requires-python = ">=3.12"
-# fastapi==0.115.0
 dependencies = [
   "fastapi==0.115.0",
   "uvicorn[standard]==0.32.0",
@@ -43,8 +42,3 @@ ignore = ["E501"]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "-ra"
-
-[tool.pin_hints]
-fastapi_hint = """
-fastapi==0.115.0
-"""
