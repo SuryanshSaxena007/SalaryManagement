@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-8.3.0, pluggy-1.6.0 -- /Users/suryanshsaxena/Documents/Suryansh Saxena/backend/.venv/bin/python3.12
+cachedir: .pytest_cache
+rootdir: /Users/suryanshsaxena/Documents/Suryansh Saxena/backend
+configfile: pyproject.toml
+plugins: asyncio-0.24.0, cov-5.0.0, Faker-30.0.0, anyio-4.13.0
+asyncio: mode=Mode.AUTO, default_loop_scope=None
+collecting ... collected 13 items / 9 deselected / 4 selected
+
+tests/test_api_reports.py::test_distribution_default_is_ten_bins PASSED  [ 25%]
+tests/test_api_reports.py::test_distribution_rejects_bins_below_two PASSED [ 50%]
+tests/test_api_reports.py::test_distribution_rejects_bins_above_fifty PASSED [ 75%]
+tests/test_api_reports.py::test_distribution_respects_min_and_max_salary_usd_filters PASSED [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/formparsers.py:12
+  /Users/suryanshsaxena/Documents/Suryansh Saxena/backend/.venv/lib/python3.12/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+tests/test_api_reports.py: 218 warnings
+  /Users/suryanshsaxena/Documents/Suryansh Saxena/backend/.venv/lib/python3.12/site-packages/sqlalchemy/sql/schema.py:3596: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 4 passed, 9 deselected, 219 warnings in 0.37s =================
