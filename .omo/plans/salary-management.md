@@ -1051,7 +1051,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/repositories/{country,currency,fx_rate}.py`, `backend/tests/test_repo_{country,currency,fx_rate}.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_repo_{country,currency,fx_rate}.py`
 
-- [ ] 11. Backend EmployeeService (business rules, validation, FX normalization)
+- [x] 11. Backend EmployeeService (business rules, validation, FX normalization)
 
   **What to do**:
   - `backend/app/services/employee.py`: `class EmployeeService` injecting `EmployeeRepository`, `CountryRepository`, `CurrencyRepository`, `FXRateRepository`. Methods:
@@ -1129,7 +1129,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/services/{employee,exceptions}.py`, `backend/tests/test_service_employee.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_service_employee.py`
 
-- [ ] 12. Backend ReportingService (KPIs, by-country, by-department, distribution)
+- [x] 12. Backend ReportingService (KPIs, by-country, by-department, distribution)
 
   **What to do**:
   - `backend/app/schemas/reports.py`:
@@ -1295,7 +1295,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/services/csv_import.py`, `backend/app/schemas/import.py`, `backend/seeds/sample_import.csv`, `backend/tests/test_service_csv_import.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_service_csv_import.py`
 
-- [ ] 14. Backend CSV export service (filtered query → CSV stream)
+- [x] 14. Backend CSV export service (filtered query → CSV stream)
 
   **What to do**:
   - `backend/app/services/csv_export.py`: `class CsvExportService` injecting `EmployeeRepository`, `FXRateRepository`. Method:
