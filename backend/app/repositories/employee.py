@@ -36,7 +36,30 @@ class EmployeeRepository(BaseRepository[Employee]):
         self,
         filters: EmployeeListFilters,
     ) -> tuple[list[Employee], int]:
-        stmt: Select[tuple[Employee]] = select(Employee)
+        stmt: Select[tuple[Employee]] = self._apply_filters(select(Employee), filters)
+
+        # Count uses the SAME filtered statement (minus pagination/order).
+        count_stmt = select(func.count()).select_from(stmt.subquery())
+        total = (await self.session.execute(count_stmt)).scalar_one()
+
+        sort_col = getattr(Employee, filters.sort)
+        sort_expr = sort_col.desc() if filters.order == "desc" else sort_col.asc()
+        stmt = stmt.order_by(sort_expr).limit(filters.limit).offset(filters.offset)
+
+        result = await self.session.execute(stmt)
+        items = list(result.scalars().all())
+        return items, total
+
+    @staticmethod
+    def _apply_filters(
+        stmt: Select[tuple[Employee]],
+        filters: EmployeeListFilters,
+    ) -> Select[tuple[Employee]]:
+        """Apply scalar + USD-normalized filters; return the augmented statement.
+
+        Kept as a pure function (no session access) so it can be reused for
+        count + page queries without re-joining FX data twice.
+        """
 
         if filters.country_code:
             stmt = stmt.where(Employee.country_code == filters.country_code)
@@ -52,49 +75,40 @@ class EmployeeRepository(BaseRepository[Employee]):
                     Employee.employee_code.ilike(like),
                 )
             )
-        if filters.min_salary_usd is not None or filters.max_salary_usd is not None:
-            fx_max_subq = (
-                select(
-                    FXRate.from_currency.label("from_currency"),
-                    func.max(FXRate.as_of).label("max_as_of"),
-                )
-                .where(FXRate.to_currency == "USD")
-                .group_by(FXRate.from_currency)
-                .subquery()
-            )
-            fx_latest = (
-                select(FXRate.from_currency, FXRate.rate)
-                .join(
-                    fx_max_subq,
-                    and_(
-                        FXRate.from_currency == fx_max_subq.c.from_currency,
-                        FXRate.as_of == fx_max_subq.c.max_as_of,
-                    ),
-                )
-                .where(FXRate.to_currency == "USD")
-                .subquery()
-            )
-            stmt = stmt.join(
-                fx_latest,
-                Employee.currency_code == fx_latest.c.from_currency,
-            )
-            usd_value = Employee.base_salary * fx_latest.c.rate
-            if filters.min_salary_usd is not None:
-                stmt = stmt.where(usd_value >= filters.min_salary_usd)
-            if filters.max_salary_usd is not None:
-                stmt = stmt.where(usd_value <= filters.max_salary_usd)
+        if filters.min_salary_usd is None and filters.max_salary_usd is None:
+            return stmt
 
-        # Count uses the SAME filtered statement (minus pagination/order).
-        count_stmt = select(func.count()).select_from(stmt.subquery())
-        total = (await self.session.execute(count_stmt)).scalar_one()
-
-        sort_col = getattr(Employee, filters.sort)
-        sort_expr = sort_col.desc() if filters.order == "desc" else sort_col.asc()
-        stmt = stmt.order_by(sort_expr).limit(filters.limit).offset(filters.offset)
-
-        result = await self.session.execute(stmt)
-        items = list(result.scalars().all())
-        return items, total
+        fx_max_subq = (
+            select(
+                FXRate.from_currency.label("from_currency"),
+                func.max(FXRate.as_of).label("max_as_of"),
+            )
+            .where(FXRate.to_currency == "USD")
+            .group_by(FXRate.from_currency)
+            .subquery()
+        )
+        fx_latest = (
+            select(FXRate.from_currency, FXRate.rate)
+            .join(
+                fx_max_subq,
+                and_(
+                    FXRate.from_currency == fx_max_subq.c.from_currency,
+                    FXRate.as_of == fx_max_subq.c.max_as_of,
+                ),
+            )
+            .where(FXRate.to_currency == "USD")
+            .subquery()
+        )
+        stmt = stmt.join(
+            fx_latest,
+            Employee.currency_code == fx_latest.c.from_currency,
+        )
+        usd_value = Employee.base_salary * fx_latest.c.rate
+        if filters.min_salary_usd is not None:
+            stmt = stmt.where(usd_value >= filters.min_salary_usd)
+        if filters.max_salary_usd is not None:
+            stmt = stmt.where(usd_value <= filters.max_salary_usd)
+        return stmt
 
     async def create(self, data: EmployeeCreate) -> Employee:
         employee = Employee(**data.model_dump())
