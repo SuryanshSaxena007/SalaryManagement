@@ -2071,7 +2071,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/employees/page.tsx`, `frontend/components/employees/{employees-page-client,filter-bar,employee-row-actions}.tsx`, `frontend/app/api/employees/route.ts`, `frontend/app/api/employees/[id]/route.ts`, `frontend/app/api/employees/import/route.ts`, `frontend/app/api/employees/export/route.ts`, `frontend/tests/components/employees/employees-page-client.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 23. Frontend app/employees/[id]/page.tsx (edit form with react-hook-form + zod)
+- [x] 23. Frontend app/employees/[id]/page.tsx (edit form with react-hook-form + zod)
 
   **What to do**:
   - `frontend/app/employees/[id]/page.tsx` - Server Component reads `params.id`, calls `getEmployee(id)` from DAL, passes into `<EditEmployeeClient employee={data} />`
