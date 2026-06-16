@@ -1218,7 +1218,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/services/reporting.py`, `backend/app/schemas/reports.py`, `backend/tests/test_service_reporting.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_service_reporting.py`
 
-- [ ] 13. Backend CSV import service (validation + bulk insert)
+- [x] 13. Backend CSV import service (validation + bulk insert)
 
   **What to do**:
   - `backend/app/services/csv_import.py`: `class CsvImportService` injecting `EmployeeService`, `CountryRepository`, `CurrencyRepository`. Method:
@@ -1620,7 +1620,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/api/v1/employees.py`, `backend/app/api/v1/dependencies.py` (service factories), `backend/tests/test_api_employees.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_api_employees.py`
 
-- [ ] 18. Backend reports router (kpis + by-country + by-department + distribution)
+- [x] 18. Backend reports router (kpis + by-country + by-department + distribution)
 
   **What to do**:
   - `backend/app/api/v1/reports.py`: `router = APIRouter(prefix="/api/v1/reports", tags=["reports"])`. Endpoints:
@@ -1698,7 +1698,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/app/api/v1/reports.py`, `backend/tests/test_api_reports.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_api_reports.py`
 
-- [ ] 19. Backend seed script (10k employees, countries, FX rates, idempotent)
+- [x] 19. Backend seed script (10k employees, countries, FX rates, idempotent)
 
   **What to do**:
   - `backend/seeds/__init__.py` empty
