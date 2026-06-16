@@ -109,7 +109,7 @@ Reporting endpoints (`/reports/kpis`, `/reports/by-country`, `/reports/by-depart
 ## Frontend performance
 
 - **`export const dynamic = "force-dynamic"`** on `app/page.tsx`, `app/employees/page.tsx`, `app/reports/page.tsx`. Skips static prerender at build time (the backend isn't reachable then) and re-fetches on every request, which is the correct semantic for live data anyway.
-- **`Promise.all([...])` on the dashboard** — KPIs, by-country, by-department, and distribution are fetched in parallel from Server Components. Wall-clock for first paint is bounded by the slowest single query, not their sum.
+- **`Promise.all([...])` on the dashboard** — KPIs, by-country, and by-department are fetched in parallel from Server Components. Wall-clock for first paint is bounded by the slowest single query, not their sum.
 - **TanStack Table `manualPagination`** — paging buttons push `offset` to the server. The table never holds more than `limit` rows in memory client-side.
 - **Route handler proxies** — `frontend/app/api/employees/*/route.ts` keep `FASTAPI_URL` server-side. No CORS pre-flights, no exposed backend URL, no public env variable.
 - **Recharts under jsdom** — chart components are `'use client'`-only. The Server Component handles the data fetch; the client only renders SVG once the data arrives.
