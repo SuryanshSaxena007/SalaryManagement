@@ -20,8 +20,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { type Employee, type EmployeeUpdate } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +59,9 @@ const DEPARTMENTS: readonly string[] = [
 ];
 
 const CURRENCIES: readonly string[] = ["USD", "GBP", "INR", "EUR", "BRL", "JPY", "SGD", "CAD"];
+const COUNTRY_OPTIONS = COUNTRIES.map((country) => ({ value: country.code, label: country.name }));
+const DEPARTMENT_OPTIONS = DEPARTMENTS.map((department) => ({ value: department, label: department }));
+const CURRENCY_OPTIONS = CURRENCIES.map((currency) => ({ value: currency, label: currency }));
 
 const employeeEditSchema = z.object({
   first_name: z.string().min(1, "First name is required").max(100),
@@ -61,7 +71,7 @@ const employeeEditSchema = z.object({
   department: z.string().min(1, "Department is required"),
   job_title: z.string().min(1, "Job title is required").max(120),
   hire_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD"),
-  base_salary: z.string().regex(/^\d+\.\d{2}$/, "Invalid amount format"),
+  base_salary: z.string().regex(/^\d+(\.\d{2})?$/, "Invalid amount format"),
   currency_code: z.string().regex(/^[A-Z]{3}$/, "Use a 3-letter uppercase currency code"),
 });
 
@@ -98,6 +108,10 @@ function toFormValues(employee: Employee): EmployeeEditForm {
     base_salary: employee.base_salary,
     currency_code: employee.currency_code,
   };
+}
+
+function normaliseSalary(value: string): string {
+  return value.includes(".") ? value : `${value}.00`;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -143,17 +157,62 @@ type TextFieldProps = {
 function TextField({ id, label, register, errors, type = "text", inputMode }: TextFieldProps) {
   const error = errors[id]?.message;
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <Input
-        id={id}
-        type={type}
-        inputMode={inputMode}
-        aria-invalid={Boolean(error)}
-        {...register}
-      />
-      {error ? <p className="text-sm font-medium text-destructive">{error}</p> : null}
-    </div>
+    <FormField
+      name={id}
+      render={() => (
+        <FormItem>
+          <FormLabel htmlFor={id}>{label}</FormLabel>
+          <FormControl>
+            <Input
+              id={id}
+              type={type}
+              inputMode={inputMode}
+              pattern={id === "base_salary" ? "^\\d+(\\.\\d{2})?$" : undefined}
+              aria-invalid={Boolean(error)}
+              {...register}
+            />
+          </FormControl>
+          <FormMessage>{error}</FormMessage>
+        </FormItem>
+      )}
+    />
+  );
+}
+
+type SelectFieldProps = {
+  id: FieldName;
+  label: string;
+  options: readonly { value: string; label: string }[];
+  register: UseFormRegisterReturn<FieldName>;
+  errors: FieldErrors<EmployeeEditForm>;
+};
+
+function SelectField({ id, label, options, register, errors }: SelectFieldProps) {
+  const error = errors[id]?.message;
+  return (
+    <FormField
+      name={id}
+      render={() => (
+        <FormItem>
+          <FormLabel htmlFor={id}>{label}</FormLabel>
+          <FormControl>
+            <select
+              id={id}
+              className={SELECT_CLASS}
+              aria-invalid={Boolean(error)}
+              {...register}
+            >
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </FormControl>
+          <FormMessage>{error}</FormMessage>
+        </FormItem>
+      )}
+    />
   );
 }
 
@@ -179,8 +238,9 @@ export function EditEmployeeClient({ employee }: EditEmployeeClientProps) {
     setServerError(null);
 
     const payload = FIELD_NAMES.reduce<EmployeeUpdate>((next, name) => {
-      if (dirtyFields[name]) return { ...next, [name]: values[name] };
-      return next;
+      if (!dirtyFields[name]) return next;
+      const value = name === "base_salary" ? normaliseSalary(values[name]) : values[name];
+      return { ...next, [name]: value };
     }, {});
 
     if (Object.keys(payload).length === 0) {
@@ -263,7 +323,8 @@ export function EditEmployeeClient({ employee }: EditEmployeeClientProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit} className="grid gap-5" aria-label="Edit employee form">
+          <Form {...form}>
+          <form noValidate onSubmit={onSubmit} className="grid gap-5" aria-label="Edit employee form">
             {serverError ? (
               <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {serverError}
@@ -275,43 +336,21 @@ export function EditEmployeeClient({ employee }: EditEmployeeClientProps) {
               <TextField id="last_name" label="Last name" register={form.register("last_name")} errors={errors} />
               <TextField id="email" label="Email" type="email" register={form.register("email")} errors={errors} />
 
-              <div className="space-y-2">
-                <Label htmlFor="country_code">Country</Label>
-                <select
-                  id="country_code"
-                  className={SELECT_CLASS}
-                  aria-invalid={Boolean(errors.country_code)}
-                  {...form.register("country_code")}
-                >
-                  {COUNTRIES.map((country) => (
-                    <option key={country.code} value={country.code}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
-                {errors.country_code?.message ? (
-                  <p className="text-sm font-medium text-destructive">{errors.country_code.message}</p>
-                ) : null}
-              </div>
+              <SelectField
+                id="country_code"
+                label="Country"
+                options={COUNTRY_OPTIONS}
+                register={form.register("country_code")}
+                errors={errors}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="department">Department</Label>
-                <select
-                  id="department"
-                  className={SELECT_CLASS}
-                  aria-invalid={Boolean(errors.department)}
-                  {...form.register("department")}
-                >
-                  {DEPARTMENTS.map((department) => (
-                    <option key={department} value={department}>
-                      {department}
-                    </option>
-                  ))}
-                </select>
-                {errors.department?.message ? (
-                  <p className="text-sm font-medium text-destructive">{errors.department.message}</p>
-                ) : null}
-              </div>
+              <SelectField
+                id="department"
+                label="Department"
+                options={DEPARTMENT_OPTIONS}
+                register={form.register("department")}
+                errors={errors}
+              />
 
               <TextField id="job_title" label="Job title" register={form.register("job_title")} errors={errors} />
               <TextField id="hire_date" label="Hire date" type="date" register={form.register("hire_date")} errors={errors} />
@@ -323,27 +362,16 @@ export function EditEmployeeClient({ employee }: EditEmployeeClientProps) {
                 errors={errors}
               />
 
-              <div className="space-y-2">
-                <Label htmlFor="currency_code">Currency</Label>
-                <select
-                  id="currency_code"
-                  className={SELECT_CLASS}
-                  aria-invalid={Boolean(errors.currency_code)}
-                  {...form.register("currency_code")}
-                >
-                  {CURRENCIES.map((currency) => (
-                    <option key={currency} value={currency}>
-                      {currency}
-                    </option>
-                  ))}
-                </select>
-                {errors.currency_code?.message ? (
-                  <p className="text-sm font-medium text-destructive">{errors.currency_code.message}</p>
-                ) : null}
-              </div>
+              <SelectField
+                id="currency_code"
+                label="Currency"
+                options={CURRENCY_OPTIONS}
+                register={form.register("currency_code")}
+                errors={errors}
+              />
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-4">
+            <div className="flex flex-wrap items-center justify-end gap-2 border-t pt-4">
               <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
                 <AlertDialogTrigger render={<Button type="button" variant="destructive" className="gap-2" />}>
                   <Trash2 className="size-4" aria-hidden="true" />
@@ -372,17 +400,16 @@ export function EditEmployeeClient({ employee }: EditEmployeeClientProps) {
                 </AlertDialogContent>
               </AlertDialog>
 
-              <div className="flex items-center gap-2">
-                <Link href="/employees" className={buttonVariants({ variant: "outline" })}>
-                  Cancel
-                </Link>
-                <Button type="submit" disabled={isSubmitting} className="gap-2">
-                  <Save className="size-4" aria-hidden="true" />
-                  Save changes
-                </Button>
-              </div>
+              <Link href="/employees" className={buttonVariants({ variant: "outline" })}>
+                Cancel
+              </Link>
+              <Button type="submit" disabled={isSubmitting} className="gap-2">
+                <Save className="size-4" aria-hidden="true" />
+                Save changes
+              </Button>
             </div>
           </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

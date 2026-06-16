@@ -84,6 +84,27 @@ describe("EditEmployeeClient", () => {
     expect(patchBody).toEqual({ last_name: "Byron" });
   });
 
+  it("accepts whole-dollar salary input and normalises it for PATCH", async () => {
+    const user = userEvent.setup();
+    let patchBody: Record<string, string> | undefined;
+
+    server.use(
+      http.patch("/api/employees/:id", async ({ request }) => {
+        patchBody = (await request.json()) as Record<string, string>;
+        return HttpResponse.json({ ...employee, ...patchBody });
+      }),
+    );
+
+    render(<EditEmployeeClient employee={employee} />);
+
+    await user.clear(screen.getByLabelText(/base salary/i));
+    await user.type(screen.getByLabelText(/base salary/i), "99999");
+    await user.click(screen.getByRole("button", { name: /save changes/i }));
+
+    await vi.waitFor(() => expect(mocks.push).toHaveBeenCalledWith("/employees"));
+    expect(patchBody).toEqual({ base_salary: "99999.00" });
+  });
+
   it("displays validation error for invalid salary", async () => {
     const user = userEvent.setup();
     render(<EditEmployeeClient employee={employee} />);
