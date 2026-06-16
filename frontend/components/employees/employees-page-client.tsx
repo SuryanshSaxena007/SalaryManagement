@@ -15,6 +15,7 @@ import type { EmployeeFilters } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
 import { EmployeeRowActions } from "./employee-row-actions";
+import { ImportCsvDialog } from "./import-csv-dialog";
 
 type Employee = {
   id: number;
@@ -369,6 +370,7 @@ export function EmployeesPageClient({ filters, initialData }: EmployeesPageClien
             <Download className="size-4" aria-hidden="true" />
             Export CSV
           </a>
+          <ImportCsvDialog />
           <Link
             href="/employees/new"
             className={cn(buttonVariants({ variant: "default" }), "gap-2")}
