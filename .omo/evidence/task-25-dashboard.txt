@@ -1,0 +1,78 @@
+Task 25 — Frontend app/page.tsx dashboard
+=========================================
+Date: 2026-06-16
+Working dir: frontend/
+
+Files added/modified:
+- frontend/app/page.tsx                                                (MODIFIED — replaced placeholder; force-dynamic + DAL Promise.all)
+- frontend/components/dashboard/dashboard-client.tsx                   (ADDED — 'use client'; 4 KPI cards + 2 charts + footnote)
+- frontend/components/dashboard/headcount-by-country-chart.tsx        (ADDED — Recharts BarChart sorted desc by headcount)
+- frontend/components/dashboard/median-salary-by-department-chart.tsx (ADDED — Recharts BarChart sorted desc by median_salary_usd)
+- frontend/tests/components/dashboard/dashboard-client.test.tsx       (ADDED — 5 RED→GREEN tests; mocks recharts ResponsiveContainer)
+
+Acceptance gates
+----------------
+
+1) pnpm vitest run tests/components/dashboard/
+
+   $ pnpm vitest run tests/components/dashboard/
+   ✓ tests/components/dashboard/dashboard-client.test.tsx (5 tests) 182ms
+    Test Files  1 passed (1)
+         Tests  5 passed (5)
+   exit: 0
+
+2) pnpm vitest run  (FULL suite — no regression)
+   (Run with untracked T26 reports artifacts stashed; those artifacts are
+   not part of T25 and reference T26 modules that do not exist yet.)
+
+   $ pnpm vitest run
+   ✓ tests/lib/schemas.test.ts (4)
+   ✓ tests/lib/format.test.ts (4)
+   ✓ tests/lib/dal.test.ts (4)
+   ✓ tests/smoke.test.tsx (1)
+   ✓ tests/components/kpi-card.test.tsx (2)
+   ✓ tests/components/layout/header.test.tsx (3)
+   ✓ tests/components/layout/sidebar.test.tsx (4)
+   ✓ tests/components/data-table.test.tsx (7)
+   ✓ tests/components/dashboard/dashboard-client.test.tsx (5)
+    Test Files  9 passed (9)
+         Tests  34 passed (34)
+   exit: 0
+
+3) pnpm tsc --noEmit  (against T25 working set; T26 stub stashed)
+   (no output)
+   exit: 0
+
+4) pnpm lint
+   $ eslint
+   (no output, no errors)
+   exit: 0
+
+5) pnpm build  (force-dynamic prevents build-time fetch)
+   ✓ Compiled successfully in 2.5s
+   Route (app)                Size  First Load JS
+   ┌ ƒ /                   101 kB  213 kB
+   └ ○ /_not-found            1 kB  104 kB
+   ƒ  (Dynamic)  server-rendered on demand
+   exit: 0
+
+Design notes
+------------
+- Server Component (app/page.tsx) parses DAL responses with Zod schemas
+  (KpiSchema, ByCountryRowSchema, ByDepartmentRowSchema) before handing
+  resolved (non-promise) data to <DashboardClient/>. Avoids hydration
+  mismatch and keeps validation in the trust boundary.
+- 'export const dynamic = "force-dynamic"' opts the route out of static
+  prerender; next build does NOT hit the backend.
+- 4 KPI grid: 1 col → 2 col (sm) → 4 col (xl). Cards: Total Headcount,
+  Total Comp (USD), Avg Salary (USD), Countries. Sublabels show median,
+  raw count, department/currency counts. Formatters from lib/format.ts —
+  no inline number/currency formatting.
+- Charts use Recharts <ResponsiveContainer> + <BarChart>. Colors use
+  globals.css design tokens (--color-primary, --color-border,
+  --color-muted-foreground, --color-popover, --radius-md). Sorted desc
+  client-side before render.
+- Tests pass direct props (no MSW round-trip). Recharts SVG render in
+  jsdom unlocked by mocking ResponsiveContainer to cloneElement the
+  single chart child with explicit width/height — actual chart math
+  runs, SVG nodes exist, assertions hold.
