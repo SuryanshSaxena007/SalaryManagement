@@ -1526,7 +1526,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/lib/format.ts`, `frontend/tests/lib/format.test.ts`, `frontend/tests/msw/handlers.ts`, `frontend/tests/msw/server.ts`, `frontend/tests/setup.ts`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run tests/lib/ tests/msw/`
 
-- [ ] 17. Backend employees router (CRUD + import + export.csv)
+- [x] 17. Backend employees router (CRUD + import + export.csv)
 
   **What to do**:
   - `backend/app/api/v1/employees.py`: `router = APIRouter(prefix="/api/v1/employees", tags=["employees"])`. Endpoints:
@@ -2240,7 +2240,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/employees/new/page.tsx`, `frontend/components/employees/create-employee-client.tsx`, `frontend/tests/components/employees/create-employee-client.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 25. Frontend app/page.tsx dashboard (KPI cards + 2 charts via Recharts)
+- [x] 25. Frontend app/page.tsx dashboard (KPI cards + 2 charts via Recharts)
 
   **What to do**:
   - `frontend/app/page.tsx` - Server Component. Calls `getKpis()`, `getReportByCountry()`, `getReportByDepartment()` in parallel via `Promise.all`. Passes data to `<DashboardClient>`.
@@ -2328,7 +2328,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/page.tsx`, `frontend/components/dashboard/{dashboard-client,headcount-by-country-chart,median-salary-by-department-chart}.tsx`, `frontend/tests/components/dashboard/*.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 26. Frontend app/reports/page.tsx (filter bar + chart + CSV export)
+- [x] 26. Frontend app/reports/page.tsx (filter bar + chart + CSV export)
 
   **What to do**:
   - `frontend/app/reports/page.tsx` - Server Component. Reads `searchParams` (country_code, department, min_salary_usd, max_salary_usd). Builds a single `ReportFilters` object that is passed to ALL three calls: `getEmployees(employeeFilters)` for paginated table + `getReportByCountry(reportFilters)` for the by-country chart + `getReportByDepartment(reportFilters)` for the by-department chart + `getReportDistribution(10, reportFilters)` for the histogram. This way the URL searchParams drive BOTH the employee table AND the charts identically. Passes resolved data into `<ReportsPageClient>`.
