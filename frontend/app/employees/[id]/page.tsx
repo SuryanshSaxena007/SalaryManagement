@@ -4,6 +4,8 @@ import { EditEmployeeClient } from "@/components/employees/edit-employee-client"
 import { getEmployee } from "@/lib/dal";
 import { EmployeeSchema } from "@/lib/schemas";
 
+import { parseEmployeeIdParam } from "./params";
+
 export const dynamic = "force-dynamic";
 
 type EmployeeEditPageProps = {
@@ -16,9 +18,9 @@ function isNotFoundError(error: unknown): boolean {
 
 export default async function EmployeeEditPage({ params }: EmployeeEditPageProps) {
   const { id } = await params;
-  const employeeId = Number.parseInt(id, 10);
+  const employeeId = parseEmployeeIdParam(id);
 
-  if (!Number.isFinite(employeeId) || employeeId < 1) notFound();
+  if (employeeId === null) notFound();
 
   try {
     const employee = EmployeeSchema.parse(await getEmployee(employeeId));
