@@ -2161,7 +2161,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/employees/[id]/{page,not-found}.tsx`, `frontend/components/employees/edit-employee-client.tsx`, `frontend/tests/components/employees/edit-employee-client.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 24. Frontend app/employees/new/page.tsx (create form)
+- [x] 24. Frontend app/employees/new/page.tsx (create form)
 
   **What to do**:
   - `frontend/app/employees/new/page.tsx` - Server Component, just renders `<CreateEmployeeClient />`
