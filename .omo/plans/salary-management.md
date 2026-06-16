@@ -2738,7 +2738,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `docs/{requirements,architecture,decisions,tradeoffs,ai-prompts}.md`, `tests/docs_smoke.sh`
   - Pre-commit: `bash tests/docs_smoke.sh`
 
-- [ ] 31. README.md final pass with local-setup commands + demo notes (live URLs DESCOPED with T28/T29)
+- [x] 31. README.md final pass with local-setup commands + demo notes (live URLs DESCOPED with T28/T29)
 
   **What to do**:
   - Update repo-root `README.md` (already scaffolded in T8) with final content:
@@ -2780,9 +2780,9 @@ Max Concurrent: 8 tasks (Wave 1)
   **References**: T8 README skeleton; T30 docs files
 
   **Acceptance Criteria**:
-  - [ ] `bash tests/readme_smoke.sh` exits 0
-  - [ ] `wc -l README.md` ≤ 300
-  - [ ] All `[link](path)` references in README point to files that exist (basic check via shell)
+  - [x] `bash tests/readme_smoke.sh` exits 0
+  - [x] `wc -l README.md` ≤ 300
+  - [x] All `[link](path)` references in README point to files that exist (basic check via shell)
 
   **QA Scenarios**:
 
@@ -2794,7 +2794,7 @@ Max Concurrent: 8 tasks (Wave 1)
       2. Assert output empty (no MISSING lines)
     Evidence: .omo/evidence/task-31-links.txt
 
-  Scenario: README displays both live URLs
+  Scenario: README displays both live URLs (DESCOPED with T28/T29)
     Tool: Bash
     Steps:
       1. Run: `grep -E 'https://[a-z0-9-]+\\.(vercel|railway)\\.app' README.md`
@@ -2803,8 +2803,8 @@ Max Concurrent: 8 tasks (Wave 1)
   ```
 
   **Evidence to Capture**:
-  - [ ] `.omo/evidence/task-31-links.txt`
-  - [ ] `.omo/evidence/task-31-urls.txt`
+  - [x] `.omo/evidence/task-31-links.txt`
+  - [~] `.omo/evidence/task-31-urls.txt` (DESCOPED — no live URLs per brief)
 
   **Commit**: YES (1-2 commits)
   - `docs(readme): final pass with live URLs, commands, and demo notes`
