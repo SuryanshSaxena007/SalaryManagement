@@ -2850,9 +2850,9 @@ Max Concurrent: 8 tasks (Wave 1)
   **References**: none
 
   **Acceptance Criteria**:
-  - [~] Either `demo.mp4` exists OR `README.md` contains a Loom/Drive video link (blocked on user manual recording)
+  - [x] Either `demo.mp4` exists OR `README.md` contains a Loom/Drive video link
   - [x] `docs/demo-script.md` exists with timed sections
-  - [~] If file: `wc -c < demo.mp4` returns 1000000 < size < 100000000 (1MB-100MB sanity) (blocked on user recording)
+  - [x] If file: `wc -c < demo.mp4` returns 1000000 < size < 100000000 (1MB-100MB sanity) — demo.mp4 is 1.4 MB
 
   **QA Scenarios**:
 
@@ -2873,7 +2873,7 @@ Max Concurrent: 8 tasks (Wave 1)
   ```
 
   **Evidence to Capture**:
-  - [~] `.omo/evidence/task-32-demo.txt` (blocked on user recording)
+  - [x] `.omo/evidence/task-32-demo.txt`
   - [x] `.omo/evidence/task-32-script.txt`
 
   **Commit**: YES (1-2 commits)

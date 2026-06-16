@@ -104,7 +104,7 @@ All API calls stay same-origin through Next.js route handlers — no CORS issues
 
 ## Demo Video
 
-<!-- TODO: Record 3-5 min walkthrough at localhost:3000 after setup -->
+A silent walkthrough is committed as [`demo.mp4`](demo.mp4) — a live tour of the dashboard, employees list (filter + paginate + edit), create form, CSV import, and reports.
 
 ## Coverage
 
