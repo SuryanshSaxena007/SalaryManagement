@@ -32,9 +32,9 @@ This project was built with human–AI orchestration: the human (Suryansh) set d
 
 **Prompt to AI** *[paraphrased]:* "Generate a `seed.py` that creates 10,000 employees deterministically. Use `random.seed(42)` and `Faker.seed(42)`. Employees must have real-looking names (first + last), ACME-prefixed employee codes, emails based on names, realistic salaries per country band (US median ~75k, India median ~12k INR equivalent, etc.), departments from a realistic set, and hire dates spanning 2018–2025. Idempotent — can run multiple times without duplicates."
 
-**AI response summary:** Built a `seed_database()` function with deterministic Faker data, country-band salary distributions using gaussian noise, 8 countries with matching currencies, ACME-prefixed codes, and 15 FX rate rows. Employee names are deterministic (row 1 always "Donna Miller"). Bulk insert with `flush` every 500 rows. Completion in ~2.3 seconds for 10k rows.
+**AI response summary:** Built a `seed_database()` function with deterministic Faker data, country-band salary distributions using gaussian noise, 8 countries with matching currencies, ACME-prefixed codes, and 15 FX rate rows. Employee names are deterministic across runs — re-running the seed yields the exact same row 1 every time. Bulk insert with `flush` every 500 rows. Completion in ~2.3 seconds for 10k rows.
 
-**Manual review / validation:** Ran `seed.py` twice against a fresh DB — confirmed idempotency (0 duplicate emails/codes). Ran `--count 50` variant and manually verified row 1: ACME-00001 → Donna Miller, US, USD, Engineering, ~$75k salary. Checked FX rates: 1 USD → 1.0000, 1 INR → 0.0120 USD.
+**Manual review / validation:** Ran `seed.py` twice against a fresh DB — confirmed idempotency (0 duplicate emails/codes). Manually verified row 1: `ACME-00001 → Danielle Johnson, GB, GBP £83,984.85, Engineering` is reproduced byte-for-byte on every run. Checked FX rates: 1 USD → 1.0000, 1 INR → 0.0120 USD.
 
 **Outcome:** A deterministic seed that produces exactly the same database on every run. Used by all subsequent frontend development and demo recordings.
 
