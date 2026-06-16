@@ -1813,7 +1813,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/seeds/{__init__,data,seed}.py`, `backend/tests/test_seed.py`
   - Pre-commit: `cd backend && ruff check . && pytest -q tests/test_seed.py`
 
-- [ ] 20. Backend main.py, CORSMiddleware, error handlers, router wiring
+- [x] 20. Backend main.py, CORSMiddleware, error handlers, router wiring
 
   **What to do**:
   - `backend/app/main.py`: `app = FastAPI(title="Salary Management API", version="0.1.0", lifespan=lifespan)`. Wire routers: `app.include_router(employees_router)`, `app.include_router(reports_router)`, plus `health` and `readiness`.
@@ -1971,7 +1971,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/layout.tsx`, `frontend/app/globals.css`, `frontend/components/layout/{sidebar,header}.tsx`, `frontend/tests/components/layout/{sidebar,header}.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run tests/components/layout/`
 
-- [ ] 22. Frontend app/employees/page.tsx (server-paginated table with filters)
+- [x] 22. Frontend app/employees/page.tsx (server-paginated table with filters)
 
   **What to do**:
   - `frontend/app/employees/page.tsx` - Server Component. Reads `searchParams` for `q`, `country_code`, `department`, `min_salary_usd`, `max_salary_usd`, `sort`, `order`, `offset`, `limit`. Calls `getEmployees(filters)` from `lib/dal.ts`. Passes results into `<EmployeesPageClient initialData={result} />` Client Component.
