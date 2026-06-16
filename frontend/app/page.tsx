@@ -1,10 +1,31 @@
-export default function Home() {
+import { DashboardClient } from "@/components/dashboard/dashboard-client";
+import { getKpis, getReportByCountry, getReportByDepartment } from "@/lib/dal";
+import {
+  ByCountryRowSchema,
+  ByDepartmentRowSchema,
+  KpiSchema,
+} from "@/lib/schemas";
+import { z } from "zod";
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [kpisRaw, byCountryRaw, byDepartmentRaw] = await Promise.all([
+    getKpis(),
+    getReportByCountry(),
+    getReportByDepartment(),
+  ]);
+
+  const kpis = KpiSchema.parse(kpisRaw);
+  const byCountry = z.array(ByCountryRowSchema).parse(byCountryRaw);
+  const byDepartment = z.array(ByDepartmentRowSchema).parse(byDepartmentRaw);
+
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-2xl font-semibold tracking-tight">Dashboard</h2>
-      <p className="text-sm text-muted-foreground">
-        Payroll KPIs and recent activity will land here in a follow-up task.
-      </p>
-    </div>
+    <DashboardClient
+      kpis={kpis}
+      byCountry={byCountry}
+      byDepartment={byDepartment}
+      lastUpdated={new Date().toISOString()}
+    />
   );
 }
