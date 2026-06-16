@@ -2409,7 +2409,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/app/reports/page.tsx`, `frontend/components/reports/{reports-page-client,distribution-chart}.tsx`, `frontend/tests/components/reports/*.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 27. Frontend CSV import UI on employees page (file picker + result toast)
+- [x] 27. Frontend CSV import UI on employees page (file picker + result toast)
 
   **What to do**:
   - Extract `<ImportCsvDialog>` from T22 plan into a dedicated component (`frontend/components/employees/import-csv-dialog.tsx`):
