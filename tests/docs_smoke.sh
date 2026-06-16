@@ -26,6 +26,12 @@ require_nonempty "$DOCS/tradeoffs.md"
 require_nonempty "$DOCS/ai-prompts.md"
 [ $? -eq 0 ] && echo "  OK ai-prompts.md exists"
 
+require_nonempty "$DOCS/design-notes.md"
+[ $? -eq 0 ] && echo "  OK design-notes.md exists"
+
+require_nonempty "$DOCS/performance.md"
+[ $? -eq 0 ] && echo "  OK performance.md exists"
+
 if grep -q 'mermaid' "$DOCS/architecture.md" 2>/dev/null; then
   echo "  OK architecture.md contains mermaid codeblock"
 else
@@ -54,6 +60,22 @@ if [ "$prompt_count" -ge 5 ]; then
   echo "  OK ai-prompts.md has $prompt_count prompts (>=5)"
 else
   echo "FAIL: ai-prompts.md has $prompt_count prompts (<5)"
+  fail=1
+fi
+
+# Performance doc must cover indexes + scaling
+if grep -qi 'index' "$DOCS/performance.md" && grep -qi '10x\|10×\|scale' "$DOCS/performance.md"; then
+  echo "  OK performance.md mentions indexes and scaling"
+else
+  echo "FAIL: performance.md should mention indexes and scaling"
+  fail=1
+fi
+
+# Design notes must cover layers + invariants
+if grep -qi 'layer\|service\|repository' "$DOCS/design-notes.md" && grep -qi 'invariant\|decimal\|all-or-nothing' "$DOCS/design-notes.md"; then
+  echo "  OK design-notes.md covers layers and invariants"
+else
+  echo "FAIL: design-notes.md should cover layers and invariants"
   fail=1
 fi
 

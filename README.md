@@ -93,14 +93,15 @@ All API calls stay same-origin through Next.js route handlers — no CORS issues
 └── .env.example           # Environment template
 ```
 
-## Decisions & Trade-offs
+## Documentation
 
-- [Architecture Decision Records](docs/decisions.md) — 10 ADRs covering FastAPI vs Django, SQLite vs Postgres, why no auth, why static FX, why all-or-nothing CSV import, and more.
-- [Trade-offs Analysis](docs/tradeoffs.md) — 5 detailed pros/cons with production migration paths.
-
-## AI Prompts Log
-
-[`docs/ai-prompts.md`](docs/ai-prompts.md) documents 8 curated AI prompts that shaped this project, including the human review and validation behind each decision.
+- [Requirements](docs/requirements.md) — scope IN / scope OUT with reasoning.
+- [Design notes](docs/design-notes.md) — how the brief was decomposed, dependency order, schema rationale, and invariants the codebase enforces.
+- [Architecture](docs/architecture.md) — 4 Mermaid diagrams (component, backend layers, ER, request flow) plus layered architecture prose.
+- [Decisions (ADRs)](docs/decisions.md) — 10 ADRs covering FastAPI vs Django, SQLite vs Postgres, why no auth, why static FX, why all-or-nothing CSV import, and more.
+- [Trade-offs](docs/tradeoffs.md) — 5 detailed pros/cons with production migration paths.
+- [Performance considerations](docs/performance.md) — indexes, N+1 avoidance, streaming exports, bulk seed throughput, and what changes at 10× scale.
+- [AI prompts log](docs/ai-prompts.md) — 8 curated prompts that shaped this project, including the human review behind each decision.
 
 ## Demo Video
 
