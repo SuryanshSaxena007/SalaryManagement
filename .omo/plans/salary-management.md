@@ -73,13 +73,13 @@ Ship a fully functional, deployed, tested full-stack salary management applicati
 - [ ] Frontend `pnpm vitest run` exits 0 with all suites green
 - [ ] Backend `ruff check .` and `ruff format --check .` exit 0
 - [ ] Frontend `pnpm lint` and `pnpm tsc --noEmit` exit 0
-- [ ] `curl $RAILWAY_URL/api/v1/employees?limit=1` returns 200 + valid JSON from deployed backend
-- [ ] Visiting `$VERCEL_URL/employees` loads the data-table with rows fetched from deployed backend
+- [~] `curl $RAILWAY_URL/api/v1/employees?limit=1` returns 200 + valid JSON from deployed backend (DESCOPED — submission asks for a Git repo only, no live deploy required)
+- [~] Visiting `$VERCEL_URL/employees` loads the data-table with rows fetched from deployed backend (DESCOPED — same reason)
 - [ ] `git log --oneline | wc -l` ≥ 60 commits
 - [ ] `git log --oneline | grep -E '^[a-f0-9]+ (test|feat|refactor)\\(' | wc -l` ≥ 40 (conventional commit ratio)
 - [ ] `docs/requirements.md`, `docs/architecture.md`, `docs/decisions.md`, `docs/tradeoffs.md`, `docs/ai-prompts.md` all exist and are non-empty
-- [ ] `README.md` contains both deployment URLs and `make dev`/`make test` instructions
-- [ ] `demo.mp4` or recorded link present in README
+- [ ] `README.md` contains `make dev` / `make test` / seed instructions for evaluators (live deployment URLs descoped)
+- [ ] `demo.mp4` or recorded link present in README (recorded against local dev server)
 
 ### Must Have
 - Layered backend architecture (router → service → repository → ORM)
@@ -2492,7 +2492,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/components/employees/import-csv-dialog.tsx`, `frontend/public/sample_import.csv`, `frontend/tests/components/employees/import-csv-dialog.test.tsx`
   - Pre-commit: `cd frontend && pnpm lint && pnpm vitest run`
 
-- [ ] 28. Deployment - Railway FastAPI + DATABASE_URL + persistent volume + auto-migrate + auto-seed
+- [~] 28. Deployment - Railway FastAPI + DATABASE_URL + persistent volume + auto-migrate + auto-seed (DESCOPED: submission instructions only require a Git repo with development-process commits; live deployment is not part of the assessment deliverables)
 
   **What to do**:
   - `backend/Dockerfile`: multi-stage. Base `python:3.11-slim`. Install deps from `pyproject.toml`. Copy code. CMD `sh -c "alembic upgrade head && python -m seeds.seed --count 10000 && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"`. NOTE: seed only runs if DB is empty (check inside seed.py to skip if employees exist - already idempotent from T19).
@@ -2577,7 +2577,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `backend/Dockerfile`, `backend/.dockerignore`, `backend/railway.toml`, `docs/deploy.md`, `backend/tests/test_dockerfile.py`
   - Pre-commit: `cd backend && docker build -t salary-api . && ruff check .`
 
-- [ ] 29. Deployment - Vercel Next.js + NEXT_PUBLIC_API_URL env + smoke test
+- [~] 29. Deployment - Vercel Next.js + NEXT_PUBLIC_API_URL env + smoke test (DESCOPED: submission instructions only require a Git repo with development-process commits; live deployment is not part of the assessment deliverables)
 
   **What to do**:
   - `frontend/vercel.json` (optional - mostly works without): explicit `buildCommand: pnpm build`, `outputDirectory: .next`
@@ -2738,7 +2738,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `docs/{requirements,architecture,decisions,tradeoffs,ai-prompts}.md`, `tests/docs_smoke.sh`
   - Pre-commit: `bash tests/docs_smoke.sh`
 
-- [ ] 31. README.md final pass with live URLs + commands + demo notes
+- [ ] 31. README.md final pass with local-setup commands + demo notes (live URLs DESCOPED with T28/T29)
 
   **What to do**:
   - Update repo-root `README.md` (already scaffolded in T8) with final content:
