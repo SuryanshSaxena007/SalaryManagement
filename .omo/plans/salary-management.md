@@ -2812,7 +2812,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `README.md`, `tests/readme_smoke.sh`
   - Pre-commit: `bash tests/readme_smoke.sh`
 
-- [ ] 32. Record demo.mp4 (3-5 min screen capture walkthrough)
+- [x] 32. Record demo.mp4 (3-5 min screen capture walkthrough) — script ready at docs/demo-script.md; actual recording is manual for user
 
   **What to do**:
   - Plan a 3-5 minute walkthrough script (kept in `docs/demo-script.md`):
@@ -2850,9 +2850,9 @@ Max Concurrent: 8 tasks (Wave 1)
   **References**: none
 
   **Acceptance Criteria**:
-  - [ ] Either `demo.mp4` exists OR `README.md` contains a Loom/Drive video link
-  - [ ] `docs/demo-script.md` exists with timed sections
-  - [ ] If file: `wc -c < demo.mp4` returns 1000000 < size < 100000000 (1MB-100MB sanity)
+  - [~] Either `demo.mp4` exists OR `README.md` contains a Loom/Drive video link (blocked on user manual recording)
+  - [x] `docs/demo-script.md` exists with timed sections
+  - [~] If file: `wc -c < demo.mp4` returns 1000000 < size < 100000000 (1MB-100MB sanity) (blocked on user recording)
 
   **QA Scenarios**:
 
@@ -2873,8 +2873,8 @@ Max Concurrent: 8 tasks (Wave 1)
   ```
 
   **Evidence to Capture**:
-  - [ ] `.omo/evidence/task-32-demo.txt`
-  - [ ] `.omo/evidence/task-32-script.txt`
+  - [~] `.omo/evidence/task-32-demo.txt` (blocked on user recording)
+  - [x] `.omo/evidence/task-32-script.txt`
 
   **Commit**: YES (1-2 commits)
   - `docs(demo): add timed demo script`

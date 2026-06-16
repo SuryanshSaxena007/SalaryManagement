@@ -21,5 +21,7 @@ async def readiness(session: Annotated[AsyncSession, Depends(get_db)]) -> dict[s
     try:
         await session.execute(text("SELECT 1"))
     except Exception as exc:
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="not ready") from exc
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="not ready"
+        ) from exc
     return {"status": "ready"}

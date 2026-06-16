@@ -84,18 +84,14 @@ async def test_list_paginated_returns_items_and_total(repo: EmployeeRepository) 
     assert len(items) == 2
     assert total == 5
 
-    items_page2, total_page2 = await repo.list_paginated(
-        EmployeeListFilters(limit=2, offset=4)
-    )
+    items_page2, total_page2 = await repo.list_paginated(EmployeeListFilters(limit=2, offset=4))
     assert len(items_page2) == 1
     assert total_page2 == 5
 
 
 async def test_filter_by_country_code(repo: EmployeeRepository) -> None:
     await repo.create(make_employee_create("E-US-1", country_code="US"))
-    await repo.create(
-        make_employee_create("E-IN-1", country_code="IN", currency_code="INR")
-    )
+    await repo.create(make_employee_create("E-IN-1", country_code="IN", currency_code="INR"))
 
     items, total = await repo.list_paginated(EmployeeListFilters(country_code="IN"))
     assert total == 1
@@ -116,9 +112,7 @@ async def test_q_search_case_insensitive_across_name_email_code(
 ) -> None:
     await repo.create(make_employee_create("E-AAA-1", first_name="Aaron"))
     await repo.create(make_employee_create("E-BBB-1", last_name="Beauregard"))
-    await repo.create(
-        make_employee_create("E-CCC-1", email="penguin@example.com")
-    )
+    await repo.create(make_employee_create("E-CCC-1", email="penguin@example.com"))
     await repo.create(make_employee_create("E-XYZ-9"))
 
     # match first_name (case insensitive)
@@ -147,9 +141,7 @@ async def test_sort_by_base_salary_desc(repo: EmployeeRepository) -> None:
     await repo.create(make_employee_create("E-SAL-B", base_salary=Decimal("80000.00")))
     await repo.create(make_employee_create("E-SAL-C", base_salary=Decimal("65000.00")))
 
-    items, total = await repo.list_paginated(
-        EmployeeListFilters(sort="base_salary", order="desc")
-    )
+    items, total = await repo.list_paginated(EmployeeListFilters(sort="base_salary", order="desc"))
     assert total == 3
     codes = [e.employee_code for e in items]
     assert codes == ["E-SAL-B", "E-SAL-C", "E-SAL-A"]

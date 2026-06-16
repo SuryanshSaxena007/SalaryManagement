@@ -107,9 +107,7 @@ class CsvImportService:
             )
 
         # Materialize once — keeps row_number stable + enables empty-CSV branch.
-        numbered_rows: list[tuple[int, dict[str, str]]] = list(
-            enumerate(reader, start=2)
-        )
+        numbered_rows: list[tuple[int, dict[str, str]]] = list(enumerate(reader, start=2))
         total = len(numbered_rows)
         if total == 0:
             return ImportResult(total_rows=0, succeeded=0, failed=0, errors=[])

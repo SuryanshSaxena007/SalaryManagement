@@ -37,9 +37,7 @@ async def scalar_count(session: AsyncSession, model: type[object]) -> int:
 
 
 async def first_employee_tuple(session: AsyncSession) -> tuple[str, str, str, Decimal]:
-    employee = (
-        await session.execute(select(Employee).where(Employee.id == 1))
-    ).scalar_one()
+    employee = (await session.execute(select(Employee).where(Employee.id == 1))).scalar_one()
     return (
         employee.employee_code,
         employee.first_name,
@@ -78,7 +76,6 @@ async def test_seed_count_1000_distributes_across_all_countries(
     session: AsyncSession,
 ) -> None:
     from seeds.seed import seed_database
-
 
     await seed_database(session, count=1000, reset=True)
 

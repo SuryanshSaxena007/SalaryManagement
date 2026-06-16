@@ -33,9 +33,15 @@ async def session() -> AsyncIterator[AsyncSession]:
                 Currency(code="USD", name="US Dollar", symbol="$"),
                 Currency(code="INR", name="Indian Rupee", symbol="₹"),
                 Currency(code="GBP", name="Pound Sterling", symbol="£"),
-                FXRate(from_currency="USD", to_currency="USD", rate=Decimal("1.00000000"), as_of=AS_OF),
-                FXRate(from_currency="INR", to_currency="USD", rate=Decimal("0.01200000"), as_of=AS_OF),
-                FXRate(from_currency="GBP", to_currency="USD", rate=Decimal("1.25000000"), as_of=AS_OF),
+                FXRate(
+                    from_currency="USD", to_currency="USD", rate=Decimal("1.00000000"), as_of=AS_OF
+                ),
+                FXRate(
+                    from_currency="INR", to_currency="USD", rate=Decimal("0.01200000"), as_of=AS_OF
+                ),
+                FXRate(
+                    from_currency="GBP", to_currency="USD", rate=Decimal("1.25000000"), as_of=AS_OF
+                ),
             ]
         )
         await s.flush()

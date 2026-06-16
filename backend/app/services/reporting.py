@@ -141,7 +141,9 @@ class ReportingService:
             salary_usd = self._to_usd(employee.base_salary, employee.currency_code, fx_to_usd)
             if not self._salary_matches(salary_usd, filters):
                 continue
-            rows.append(ReportEmployee(employee=employee, country_name=country_name, salary_usd=salary_usd))
+            rows.append(
+                ReportEmployee(employee=employee, country_name=country_name, salary_usd=salary_usd)
+            )
         return rows
 
     @staticmethod

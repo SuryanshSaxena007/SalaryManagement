@@ -86,7 +86,9 @@ def _decode_rows(chunks: list[bytes]) -> list[dict[str, str]]:
     return list(reader)
 
 
-async def test_export_streams_header_and_rows(service: CsvExportService, session: AsyncSession) -> None:
+async def test_export_streams_header_and_rows(
+    service: CsvExportService, session: AsyncSession
+) -> None:
     session.add_all(
         [
             make_fx_rate(from_currency="USD"),
@@ -131,9 +133,7 @@ async def test_export_respects_filters(service: CsvExportService, session: Async
     )
     await session.flush()
 
-    chunks = await _collect_bytes(
-        service.export_employees(EmployeeListFilters(country_code="US"))
-    )
+    chunks = await _collect_bytes(service.export_employees(EmployeeListFilters(country_code="US")))
     rows = _decode_rows(chunks)
 
     assert [row["country_code"] for row in rows] == ["US", "US"]
@@ -200,13 +200,13 @@ async def test_export_handles_10k_rows_without_loading_all_at_once(
     assert len(_decode_rows(chunks)) == 2500
 
 
-async def test_export_handles_empty_result(service: CsvExportService, session: AsyncSession) -> None:
+async def test_export_handles_empty_result(
+    service: CsvExportService, session: AsyncSession
+) -> None:
     session.add(make_fx_rate(from_currency="USD"))
     await session.flush()
 
-    chunks = await _collect_bytes(
-        service.export_employees(EmployeeListFilters(country_code="ZZ"))
-    )
+    chunks = await _collect_bytes(service.export_employees(EmployeeListFilters(country_code="ZZ")))
 
     assert len(chunks) == 1
     assert chunks[0].decode("utf-8").strip() == HEADER

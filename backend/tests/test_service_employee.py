@@ -118,9 +118,7 @@ async def test_create_rejects_duplicate_employee_code(service: EmployeeService) 
 
 
 async def test_create_rejects_duplicate_email(service: EmployeeService) -> None:
-    await service.create(
-        make_employee_create("E-EM-1", email="taken@example.com")
-    )
+    await service.create(make_employee_create("E-EM-1", email="taken@example.com"))
 
     dup = make_employee_create("E-EM-2", email="taken@example.com")
     with pytest.raises(ConflictError) as excinfo:

@@ -247,9 +247,7 @@ async def test_get_missing_returns_404(empty_client: AsyncClient) -> None:
 async def test_post_creates_and_returns_201_with_string_base_salary(
     empty_client: AsyncClient,
 ) -> None:
-    response = await empty_client.post(
-        "/api/v1/employees/", json=_create_payload("E-CR-1")
-    )
+    response = await empty_client.post("/api/v1/employees/", json=_create_payload("E-CR-1"))
 
     assert response.status_code == 201
     body = response.json()
@@ -264,7 +262,8 @@ async def test_post_duplicate_employee_code_returns_409(client: AsyncClient) -> 
     response = await client.post(
         "/api/v1/employees/",
         json=_create_payload(
-            "E-US-1", email="duplicate@example.com"  # E-US-1 already seeded
+            "E-US-1",
+            email="duplicate@example.com",  # E-US-1 already seeded
         ),
     )
 
@@ -282,9 +281,7 @@ async def test_post_invalid_payload_returns_422(empty_client: AsyncClient) -> No
 
 
 async def test_patch_partial_update_returns_updated_fields(client: AsyncClient) -> None:
-    list_resp = await client.get(
-        "/api/v1/employees/", params={"country_code": "US"}
-    )
+    list_resp = await client.get("/api/v1/employees/", params={"country_code": "US"})
     target_id = list_resp.json()["items"][0]["id"]
 
     response = await client.patch(
@@ -301,16 +298,12 @@ async def test_patch_partial_update_returns_updated_fields(client: AsyncClient) 
 
 
 async def test_patch_missing_returns_404(empty_client: AsyncClient) -> None:
-    response = await empty_client.patch(
-        "/api/v1/employees/999", json={"department": "Platform"}
-    )
+    response = await empty_client.patch("/api/v1/employees/999", json={"department": "Platform"})
     assert response.status_code == 404
 
 
 async def test_delete_returns_204_and_removes_row(client: AsyncClient) -> None:
-    list_resp = await client.get(
-        "/api/v1/employees/", params={"country_code": "GB"}
-    )
+    list_resp = await client.get("/api/v1/employees/", params={"country_code": "GB"})
     target_id = list_resp.json()["items"][0]["id"]
 
     response = await client.delete(f"/api/v1/employees/{target_id}")
@@ -350,10 +343,7 @@ async def test_get_export_csv_streams_attachment(client: AsyncClient) -> None:
 
     assert response.status_code == 200
     assert response.headers["content-type"].startswith("text/csv")
-    assert (
-        response.headers.get("content-disposition")
-        == "attachment; filename=employees.csv"
-    )
+    assert response.headers.get("content-disposition") == "attachment; filename=employees.csv"
     text = response.text
     assert text.startswith(
         "employee_code,first_name,last_name,email,country_code,department,"

@@ -93,9 +93,7 @@ class EmployeeService:
         if not deleted:
             raise NotFoundError(f"Employee id={id} not found")
 
-    async def list(
-        self, filters: EmployeeListFilters
-    ) -> PaginatedResponse[EmployeeOut]:
+    async def list(self, filters: EmployeeListFilters) -> PaginatedResponse[EmployeeOut]:
         items, total = await self.employees.list_paginated(filters)
         next_offset: int | None = None
         if filters.offset + filters.limit < total:

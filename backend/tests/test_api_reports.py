@@ -219,9 +219,7 @@ async def test_by_country_returns_list_sorted_by_code(client: AsyncClient) -> No
 
 
 async def test_by_country_with_engineering_department_filter(client: AsyncClient) -> None:
-    response = await client.get(
-        "/api/v1/reports/by-country", params={"department": "Engineering"}
-    )
+    response = await client.get("/api/v1/reports/by-country", params={"department": "Engineering"})
 
     assert response.status_code == 200
     rows = response.json()

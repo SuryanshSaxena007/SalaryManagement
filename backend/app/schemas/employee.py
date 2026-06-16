@@ -37,7 +37,9 @@ class EmployeeUpdate(BaseModel):
         decimal_places=2,
     )
     currency_code: str | None = Field(default=None, pattern=r"^[A-Z]{3}$")
-    employee_code: str | None = Field(default=None, min_length=1, max_length=20, pattern=r"^[A-Z0-9\-]+$")
+    employee_code: str | None = Field(
+        default=None, min_length=1, max_length=20, pattern=r"^[A-Z0-9\-]+$"
+    )
 
 
 class EmployeeOut(EmployeeBase):
