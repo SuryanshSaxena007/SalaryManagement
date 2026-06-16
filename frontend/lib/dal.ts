@@ -62,23 +62,23 @@ export function buildReportQuery(filters?: ReportFilters): string {
 }
 
 export async function getEmployees(filters?: EmployeeFilters) {
-  return apiFetch(`/employees${buildEmployeeQuery(filters)}`);
+  return apiFetch(`/api/v1/employees${buildEmployeeQuery(filters)}`);
 }
 
 export async function getEmployee(id: number) {
-  return apiFetch(`/employees/${id}`);
+  return apiFetch(`/api/v1/employees/${id}`);
 }
 
 export async function getKpis(filters?: ReportFilters) {
-  return apiFetch(`/reports/kpis${buildReportQuery(filters)}`);
+  return apiFetch(`/api/v1/reports/kpis${buildReportQuery(filters)}`);
 }
 
 export async function getReportByCountry(filters?: ReportFilters) {
-  return apiFetch(`/reports/by-country${buildReportQuery(filters)}`);
+  return apiFetch(`/api/v1/reports/by-country${buildReportQuery(filters)}`);
 }
 
 export async function getReportByDepartment(filters?: ReportFilters) {
-  return apiFetch(`/reports/by-department${buildReportQuery(filters)}`);
+  return apiFetch(`/api/v1/reports/by-department${buildReportQuery(filters)}`);
 }
 
 export async function getReportDistribution(bins?: number, filters?: ReportFilters) {
@@ -90,5 +90,5 @@ export async function getReportDistribution(bins?: number, filters?: ReportFilte
     ["max_salary_usd", filters?.max_salary_usd],
   ]);
 
-  return apiFetch(`/reports/distribution${query}`);
+  return apiFetch(`/api/v1/reports/distribution${query}`);
 }

@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
-const isoDateTime = z.string().datetime({ offset: true });
+const isoDateTime = z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+  message: "Invalid datetime",
+});
 const money = z.string().regex(/^\d+\.\d{2}$/);
 const countryCode = z.string().regex(/^[A-Z]{2}$/);
 const currencyCode = z.string().regex(/^[A-Z]{3}$/);
