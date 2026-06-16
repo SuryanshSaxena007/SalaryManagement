@@ -2648,7 +2648,7 @@ Max Concurrent: 8 tasks (Wave 1)
   - Files: `frontend/vercel.json`, `docs/deploy.md`
   - Pre-commit: `(cd frontend && pnpm build)`
 
-- [ ] 30. Documentation: requirements.md + architecture.md + decisions.md + tradeoffs.md + ai-prompts.md
+- [x] 30. Documentation: requirements.md + architecture.md + decisions.md + tradeoffs.md + ai-prompts.md
 
   **What to do**:
   - `docs/requirements.md` (1 page max): brief restatement of problem (HR Manager, ACME, 10k employees, multi-country, Excel pain), 3-5 IN-scope features (CRUD, dashboard, reports, CSV import/export, multi-country FX), 5-8 OUT-of-scope items with reasoning (no auth, no audit, no bonuses, no live FX, etc.). Format: hierarchical bullets, scannable.
@@ -2702,10 +2702,10 @@ Max Concurrent: 8 tasks (Wave 1)
   - **External**: Mermaid diagrams - https://mermaid.js.org/
 
   **Acceptance Criteria**:
-  - [ ] `bash tests/docs_smoke.sh` exits 0
-  - [ ] `cat docs/requirements.md | wc -l` ≤ 100
-  - [ ] `grep -c "^### " docs/decisions.md` ≥ 8 (counts ADR headings)
-  - [ ] `grep -c "^## Prompt" docs/ai-prompts.md` ≥ 5
+  - [x] `bash tests/docs_smoke.sh` exits 0
+  - [x] `cat docs/requirements.md | wc -l` ≤ 100
+  - [x] `grep -c "^### " docs/decisions.md` ≥ 8 (counts ADR headings)
+  - [x] `grep -c "^## Prompt" docs/ai-prompts.md` ≥ 5
 
   **QA Scenarios**:
 
@@ -2726,8 +2726,8 @@ Max Concurrent: 8 tasks (Wave 1)
   ```
 
   **Evidence to Capture**:
-  - [ ] `.omo/evidence/task-30-docs.txt`
-  - [ ] `.omo/evidence/task-30-mermaid.txt`
+  - [x] `.omo/evidence/task-30-docs.txt`
+  - [x] `.omo/evidence/task-30-mermaid.txt`
 
   **Commit**: YES (5 commits, one per doc)
   - `docs(req): add one-page requirements with scope IN/OUT + reasoning`
